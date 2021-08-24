@@ -71,12 +71,52 @@ function Wait ({history, imagestate, postsetter, shouldPopup, setShouldPopUp}) {
 }
 
 const loadFile = async(e,postImage, setPostImage) =>{
-    setPostImage([...postImage, e.target.files[0]]);
+    setPostImage([...postImage, {file: e.target.files[0], url: URL.createObjectURL(e.target.files[0])}]);
     return
 }
 
 const Write = ({history, imagestate, postsetter, postText, textsetter, shouldPopup, setShouldPopUp}) => {
-    if (shouldPopup) {
+    
+    const [mainImgIndex, setMainImgIndex] = useState(0);
+    console.log(mainImgIndex); 
+    const imgInput = useRef();
+    const ListOfImg = () => {
+        let result = [];
+        if (imagestate.length < 3){
+            imagestate.forEach(ele => {
+                if (imagestate.indexOf(ele) === mainImgIndex){
+                    result.push(<img key={imagestate.indexOf(ele)} className='imgListele' src={ele.url}
+                onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)
+                }
+                else{
+                result.push(<img key={imagestate.indexOf(ele)} className='imgListele notselected' src={ele.url}
+                onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)}
+            })    
+                result.push(
+                <form id = 'imgListfileform' method='post' encType='multipart/form-data' onSubmit={(event)=>{event.preventDefault()}}>
+                    <input type='file' id='chooseFile' name='chooseFile' accept='image/*' onChange={async e => {await loadFile(e, imagestate ,postsetter)}} ref={imgInput}/>
+                </form>);
+                result.push(
+                    <div id='addOnemore' onClick={()=> {imgInput.current.click()}}><div id='plus'>+</div></div>
+                );
+            }
+        else {
+            imagestate.forEach(ele => {
+                if(imagestate.indexOf(ele) === mainImgIndex){
+                    result.push(<img key={imagestate.indexOf(ele)} className='imgListele' src={ele.url}
+                    onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)
+                }
+                else{
+                    result.push(<img key={imagestate.indexOf(ele)} className='imgListele notselected' src={ele.url}
+                    onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)
+                }
+            })
+        }
+        return result
+    }
+    
+
+    const Writedisplay = () => {
         return(
         <div>
         <div id = 'container' className='exit'  onClick={(e)=>{ExitPost(e, imagestate, history, setShouldPopUp)}}>
@@ -87,31 +127,33 @@ const Write = ({history, imagestate, postsetter, postText, textsetter, shouldPop
                 </div>
 
                 <div id = 'writecontent'>
-                    <div id ='imgcontainer'></div>
-                    <div id ='textcontainer'></div>
+                    <div id ='imgcontainer'>
+                        <div id='mainImgcontainer'>
+                        <img id='mainImg' src={imagestate[mainImgIndex].url}/>
+                        </div>
+                        <div id='imgList'>
+                            <ListOfImg/>
+                        </div>
+                    </div>
+                    <div id ='textcontainer'>
+                    </div>
                 </div> 
             </div>
         </div>
-        <AskOneMore shouldSetter={setShouldPopUp} postSetter = {postsetter}/>
+        </div>
+        );
+    }
+
+    if (shouldPopup) {
+        return(
+        <div>
+            <Writedisplay/>
+            <AskOneMore shouldSetter={setShouldPopUp} postSetter = {postsetter}/>
         </div>
         );
     }
     return(
-        <div>
-        <div id = 'container' className='exit'  onClick={(e)=>{ExitPost(e, imagestate, history, setShouldPopUp)}}>
-            <div id="box">
-                <div id ="upline">
-                    <h4 id='title'>작성</h4>
-                    <span id='xmark' className='exit'>X</span>
-                </div>
-
-                <div id = 'writecontent'>
-                    <div id ='imgcontainer'></div>
-                    <div id ='textcontainer'></div>
-                </div> 
-            </div>
-        </div>
-        </div>
+        <Writedisplay/>
     );
 }
 
