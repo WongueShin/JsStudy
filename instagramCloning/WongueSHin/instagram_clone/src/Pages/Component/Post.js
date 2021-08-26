@@ -6,16 +6,14 @@ import './Post.css';
 const Post = (props) => {
     const history = props.history;
     const [postImage, setPostImage] = useState([]);
-    const [postText, setPostText] = useState(null);
     const [shouldPopup, setShouldPopUp] = useState(false);
-    console.log(postImage);
     if (postImage.length === 0){
     return(
         <Wait history = {history} imagestate = {postImage} postsetter = {setPostImage} shouldPopup={shouldPopup} setShouldPopUp={setShouldPopUp}/>
     )
     }
     return(
-        <Write history = {history} imagestate = {postImage} postsetter = {setPostImage} postText= {postText} textsetter={setPostText} shouldPopup={shouldPopup} setShouldPopUp = {setShouldPopUp}/>
+        <Write history = {history} imagestate = {postImage} postsetter = {setPostImage}  shouldPopup={shouldPopup} setShouldPopUp = {setShouldPopUp}/>
     )
 }
 
@@ -75,11 +73,13 @@ const loadFile = async(e,postImage, setPostImage) =>{
     return
 }
 
-const Write = ({history, imagestate, postsetter, postText, textsetter, shouldPopup, setShouldPopUp}) => {
+const Write = ({history, imagestate, postsetter, shouldPopup, setShouldPopUp}) => {
     
     const [mainImgIndex, setMainImgIndex] = useState(0);
-    console.log(mainImgIndex); 
     const imgInput = useRef();
+    const [userName, setUserName] = useState('TestUserName');
+    const textInput = useRef();
+
     const ListOfImg = () => {
         let result = [];
         if (imagestate.length < 3){
@@ -115,6 +115,14 @@ const Write = ({history, imagestate, postsetter, postText, textsetter, shouldPop
         return result
     }
     
+    const handleSumbmit = () => {
+        let feedData = {
+            img: imagestate,
+            text: textInput.current.value
+        }
+        console.log(feedData);
+        history.push('/');
+    }
 
     const Writedisplay = () => {
         return(
@@ -136,6 +144,20 @@ const Write = ({history, imagestate, postsetter, postText, textsetter, shouldPop
                         </div>
                     </div>
                     <div id ='textcontainer'>
+                        <div id='inputPlace'>
+                            <div id='accountPlace'>
+                                <div id='userProfile'></div>
+                                <div id='userName'>{userName}</div>
+                            </div>
+                            <div id='textInput'>
+                                <form id='postForm'>
+                                    <textarea id='posttext' placeholder='설명을 입력하세요...' ref={textInput}/>
+                                </form>
+                            </div>
+                        </div>
+                        <div id='buttonplace'>
+                            <button id='submitText' onClick={() => {handleSumbmit(textInput)}}>공유하기</button>
+                        </div>
                     </div>
                 </div> 
             </div>
