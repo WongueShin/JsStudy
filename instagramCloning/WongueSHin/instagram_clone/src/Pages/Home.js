@@ -39,8 +39,10 @@ const Home = () => {
         <BrowserRouter>
             <div id = "main">
             <NavigationBar props= {navigateProps}/>
-            <MainFeed/>
-            <Account/>
+            <div className='feedNAc'>
+                <MainFeed/>
+                <Account/>
+            </div>
             <Route exact path="/post" component={Post}/>
             </div>
         </BrowserRouter>
