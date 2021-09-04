@@ -1,0 +1,98 @@
+.mainfeed{
+    width: 40rem;
+}
+
+.feedContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 40rem;
+}
+
+@keyframes spin{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.loadIcon{
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: calc(16.5rem - 0.75rem);
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    animation-name: spin;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(11,end);
+}
+
+.feedList{
+    width: 33rem;
+}
+.feed{
+    border: 0.5px rgba(0, 0, 0, 0.2) solid;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+}
+.feedWA{
+    height: 3rem;
+    background: white;
+    display: flex;
+    align-items: center;
+}
+
+.WAprofileplace{
+    height: 1.75rem;
+    width:  1.75rem;
+    border-radius: 50%;
+    background: linear-gradient(-60deg,rgba(0,0,0,0.3),rgba(0,0,0,0), rgba(0,0,0,0.3));
+    background-size: 400%;
+    animation-name: loadingAnimation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    margin-left: 1rem;
+}
+
+.WAnameplace{
+    height: .75rem;
+    width: 4rem;
+    background: linear-gradient(-60deg,rgba(0,0,0,0.3),rgba(0,0,0,0), rgba(0,0,0,0.3));
+    background-size: 400%;
+    animation-name: loadingAnimation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    margin-left: 1rem;
+    border-radius: 2px;
+}
+
+.feedImageHolder{
+    height: 33rem;
+    background: rgba(0, 0, 0, 0.2);    
+}
+
+.feedImageLoading{
+    height: 33rem;
+    background: linear-gradient(-60deg,rgba(0,0,0,0.3),rgba(0,0,0,0), rgba(0,0,0,0.3));
+    background-size: 400%;
+    animation-name: loadingAnimation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loadingAnimation{
+    0% {
+        background-position: 0% 50%;
+    }
+    100%{
+        background-position: 100% 0%;    
+    }
+}
+
+.feedContentHolder{
+    height: 8rem;
+    background: white;
+}
