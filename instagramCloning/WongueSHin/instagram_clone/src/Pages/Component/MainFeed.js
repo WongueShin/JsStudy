@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './MainFeed.css'
+
+const JWT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYzMTA3MDIyNSwiZXhwIjoxNjYyNjI3ODI1fQ.IF2QzxsvzgjsXU6743mJyBwyDgJ7FKGENWNcLSQP4xE';
+const SERVER_URL = 'http://dev.jhprac.shop/'
 
 const MainFeed = () => {
     const [feedList, setFeedList] = useState([]);
     const [feedLoading, setFeedLoading] = useState(true);
 
-    const loadFeed = async () => {
-        await setTimeout(()=> {setFeedLoading(false)}, 9000);
-    }
+    //useEffect(()=> {
+    //    axios.get(SERVER_URL+"/feeds",{headers:{'x-access-token': JWT_TOKEN}})
+    //    .then(
+    //        (response) => console.log(response)
+    //    )
+    //    .catch(
+    //        (response) => console.log(response)
+    //    )
+    //}, [])`
 
     const LoadLogo = () => {
         return(
@@ -35,7 +45,6 @@ const MainFeed = () => {
         );
     }
 
-    loadFeed();
     if (feedLoading) {
         return(
             <FeedLoadingScreen/>

@@ -85,16 +85,16 @@ const Write = ({history, imagestate, postsetter, shouldPopup, setShouldPopUp}) =
         if (imagestate.length < 3){
             imagestate.forEach(ele => {
                 if (imagestate.indexOf(ele) === mainImgIndex){
-                    result.push(<img key={imagestate.indexOf(ele)} className='imgListele' src={ele.url}
+                    result.push(<img key={ele} className='imgListele' src={ele.url}
                 onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)
                 }
                 else{
-                result.push(<img key={imagestate.indexOf(ele)} className='imgListele notselected' src={ele.url}
+                result.push(<img key={ele} className='imgListele notselected' src={ele.url}
                 onClick={() => setMainImgIndex(imagestate.indexOf(ele))}/>)}
             })    
                 result.push(
                 <form id = 'imgListfileform' method='post' encType='multipart/form-data' onSubmit={(event)=>{event.preventDefault()}}>
-                    <input type='file' id='chooseFile' name='chooseFile' accept='image/*' onChange={async e => {await loadFile(e, imagestate ,postsetter)}} ref={imgInput}/>
+                    <input key = 'addOnemore' type='file' id='chooseFile' name='chooseFile' accept='image/*' onChange={async e => {await loadFile(e, imagestate ,postsetter)}} ref={imgInput}/>
                 </form>);
                 result.push(
                     <div id='addOnemore' onClick={()=> {imgInput.current.click()}}><div id='plus'>+</div></div>
@@ -116,11 +116,24 @@ const Write = ({history, imagestate, postsetter, shouldPopup, setShouldPopUp}) =
     }
     
     const handleSumbmit = () => {
+        let formData = new FormData()
+        imagestate.forEach(
+           ({file}) => {
+                console.log(file);
+                formData.append('img', file[0]);
+            }
+        )
         let feedData = {
-            img: imagestate,
+            img: formData,
             text: textInput.current.value
         }
-        console.log(feedData);
+
+        
+        console.log(formData.entries());
+
+        for (var key of formData.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
         history.push('/');
     }
 
